@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>HackReady Portal</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#f3f4f6;
+}
+
+/* LOGIN */
+
+.login-page{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+.login-box{
+background:white;
+padding:40px;
+border-radius:20px;
+width:350px;
+text-align:center;
+box-shadow:0 4px 12px rgba(0,0,0,0.1);
+}
+
+.login-box h1{
+margin-bottom:20px;
+color:#7c3aed;
+}
+
+.login-box input{
+width:100%;
+padding:14px;
+margin-bottom:20px;
+border:1px solid #ccc;
+border-radius:10px;
+font-size:16px;
+}
+
+.login-box button{
+padding:14px 30px;
+background:#7c3aed;
+color:white;
+border:none;
+border-radius:10px;
+cursor:pointer;
+font-size:16px;
+}
+
+.login-box button:hover{
+background:#5b21b6;
+}
+
+/* APP */
+
+.app{
+display:none;
+}
+
+.container{
+display:flex;
+min-height:100vh;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+width:250px;
+background:linear-gradient(180deg,#7c3aed,#4c1d95);
+color:white;
+padding:20px;
+}
+
+.logo{
+font-size:28px;
+font-weight:bold;
+margin-bottom:30px;
+}
+
+.menu li{
+list-style:none;
+padding:14px;
+margin-bottom:10px;
+border-radius:10px;
+cursor:pointer;
+transition:0.3s;
+}
+
+.menu li:hover{
+background:rgba(255,255,255,0.2);
+}
+
+/* MAIN */
+
+.main{
+flex:1;
+padding:30px;
+}
+
+.section{
+display:none;
+}
+
+.active{
+display:block;
+}
+
+.header h1{
+font-size:35px;
+margin-bottom:10px;
+}
+
+/* DASHBOARD */
+
+.cards{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+margin-top:30px;
+}
+
+.card{
+background:white;
+padding:20px;
+border-radius:15px;
+box-shadow:0 4px 10px rgba(0,0,0,0.08);
+}
+
+.card i{
+font-size:30px;
+margin-bottom:10px;
+color:#7c3aed;
+}
+
+/* BUTTONS */
+
+.btn{
+padding:14px 25px;
+background:#7c3aed;
+color:white;
+border:none;
+border-radius:10px;
+cursor:pointer;
+font-size:16px;
+margin-top:20px;
+}
+
+.btn:hover{
+background:#5b21b6;
+}
+
+/* QUIZ */
+
+.quiz-box{
+background:white;
+padding:25px;
+border-radius:15px;
+margin-top:20px;
+box-shadow:0 4px 10px rgba(0,0,0,0.08);
+}
+
+.question{
+font-size:22px;
+font-weight:bold;
+margin-bottom:20px;
+}
+
+.option{
+display:block;
+width:100%;
+padding:14px;
+margin-bottom:12px;
+border:none;
+border-radius:10px;
+background:#ede9fe;
+cursor:pointer;
+font-size:16px;
+transition:0.3s;
+}
+
+.option:hover{
+background:#c4b5fd;
+}
+
+.result{
+font-size:28px;
+font-weight:bold;
+text-align:center;
+margin-top:20px;
+}
+
+@media(max-width:768px){
+
+.container{
+flex-direction:column;
+}
+
+.sidebar{
+width:100%;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN -->
+
+<div class="login-page" id="loginPage">
+
+<div class="login-box">
+
+<h1>HackReady 🚀</h1>
+
+<input type="text" id="studentName"
+placeholder="Enter Your Name">
+
+<button onclick="startApp()">
+Enter Dashboard
+</button>
+
+</div>
+
+</div>
+
+<!-- APP -->
+
+<div class="app" id="app">
+
+<div class="container">
+
+<!-- SIDEBAR -->
+
+<div class="sidebar">
+
+<div class="logo">
+<i class="fas fa-code"></i> HackReady
+</div>
+
+<ul class="menu">
+
+<li onclick="showSection('dashboard')">
+<i class="fas fa-home"></i> Dashboard
+</li>
+
+<li onclick="showSection('study')">
+<i class="fas fa-book"></i> Study Material
+</li>
+
+<li onclick="showSection('guide')">
+<i class="fas fa-info-circle"></i> Quiz Guide
+</li>
+
+<li onclick="showSection('progress')">
+<i class="fas fa-chart-line"></i> Progress
+</li>
+
+<li onclick="showSection('quiz')">
+<i class="fas fa-question-circle"></i> Quiz
+</li>
+
+</ul>
+
+</div>
+
+<!-- MAIN -->
+
+<div class="main">
+
+<!-- DASHBOARD -->
+
+<div class="section active" id="dashboard">
+
+<div class="header">
+<h1>Welcome <span id="displayName"></span> 👋</h1>
+<p>Your Hackathon Readiness Dashboard</p>
+</div>
+
+<div class="cards">
+
+<div class="card">
+<i class="fas fa-star"></i>
+<h2 id="scoreCard">0</h2>
+<p>Score</p>
+</div>
+
+<div class="card">
+<i class="fas fa-list"></i>
+<h2>10</h2>
+<p>Total Questions</p>
+</div>
+
+<div class="card">
+<i class="fas fa-medal"></i>
+<h2 id="statusCard">Not Attempted</h2>
+<p>Status</p>
+</div>
+
+</div>
+
+</div>
+
+<!-- STUDY MATERIAL -->
+
+<div class="section" id="study">
+
+<h1>Study Material 📚</h1>
+
+<div class="quiz-box">
+
+<h3>Topics to Study:</h3>
+
+<br>
+
+<ul>
+
+<li>HTML Basics</li>
+<li>CSS Styling</li>
+<li>JavaScript Basics</li>
+<li>Variables & Functions</li>
+<li>Arrays & Loops</li>
+<li>DOM Manipulation</li>
+<li>APIs</li>
+<li>Problem Solving</li>
+<li>Git & GitHub</li>
+<li>Hackathon Teamwork</li>
+
+</ul>
+
+</div>
+
+</div>
+
+<!-- QUIZ GUIDE -->
+
+<div class="section" id="guide">
+
+<h1>Quiz Guide 📖</h1>
+
+<div class="quiz-box">
+
+<p>✅ Total Questions: 10</p>
+<br>
+
+<p>✅ Each Question Carries 1 Mark</p>
+<br>
+
+<p>✅ More than 7 → Selected for Hackathon</p>
+<br>
+
+<p>✅ More than 5 but less than 7 → Waiting List</p>
+<br>
+
+<p>✅ Less than 5 → Better Luck Next Time</p>
+
+</div>
+
+</div>
+
+<!-- PROGRESS -->
+
+<div class="section" id="progress">
+
+<h1>Progress 📈</h1>
+
+<div class="quiz-box">
+
+<h2>Your Current Score:
+<span id="progressScore">0</span>/10
+</h2>
+
+<br>
+
+<h2>Status:
+<span id="progressStatus">Not Attempted</span>
+</h2>
+
+</div>
+
+</div>
+
+<!-- QUIZ -->
+
+<div class="section" id="quiz">
+
+<h1>Quiz Section 🧠</h1>
+
+<button class="btn" onclick="startQuiz()">
+Start Quiz
+</button>
+
+<div class="quiz-box" id="quizBox"
+style="display:none;">
+
+<div class="question" id="question"></div>
+
+<div id="options"></div>
+
+<button class="btn"
+onclick="nextQuestion()">
+
+Next Question
+
+</button>
+
+<div class="result" id="result"></div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+/* LOGIN */
+
+function startApp(){
+
+const name =
+document.getElementById("studentName").value;
+
+if(name === ""){
+
+alert("Please Enter Your Name");
+
+return;
+
+}
+
+document.getElementById("loginPage")
+.style.display = "none";
+
+document.getElementById("app")
+.style.display = "block";
+
+document.getElementById("displayName")
+.innerHTML = name;
+
+}
+
+/* NAVIGATION */
+
+function showSection(id){
+
+document.querySelectorAll(".section")
+.forEach(section=>{
+
+section.classList.remove("active");
+
+});
+
+document.getElementById(id)
+.classList.add("active");
+
+}
+
+/* QUESTIONS */
+
+const quizData = [
+
+{
+question:"What does HTML stand for?",
+options:["Hyper Text Markup Language","Home Tool Markup Language","Hyperlinks Text","HighText"],
+correct:0
+},
+
+{
+question:"Which language is used for styling?",
+options:["HTML","CSS","Python","C++"],
+correct:1
+},
+
+{
+question:"Which symbol is used for JS comments?",
+options:["##","//","**","<>"],
+correct:1
+},
+
+{
+question:"Which method adds item in array?",
+options:["push()","pop()","join()","slice()"],
+correct:0
+},
+
+{
+question:"What does API stand for?",
+options:["Application Programming Interface","Applied Program","Advanced Program","None"],
+correct:0
+},
+
+{
+question:"Which tag creates heading?",
+options:["h1","p","div","span"],
+correct:0
+},
+
+{
+question:"Which company developed JavaScript?",
+options:["Google","Netscape","Microsoft","Apple"],
+correct:1
+},
+
+{
+question:"Which CSS property changes background?",
+options:["bg","background-color","color","font"],
+correct:1
+},
+
+{
+question:"Which HTML tag inserts image?",
+options:["img","image","src","pic"],
+correct:0
+},
+
+{
+question:"Which keyword declares variable?",
+options:["var","img","style","body"],
+correct:0
+}
+
+];
+
+let currentQuestion = 0;
+let score = 0;
+let selectedAnswer = null;
+
+/* START QUIZ */
+
+function startQuiz(){
+
+document.getElementById("quizBox")
+.style.display = "block";
+
+loadQuestion();
+
+}
+
+/* LOAD QUESTION */
+
+function loadQuestion(){
+
+selectedAnswer = null;
+
+const questionEl =
+document.getElementById("question");
+
+const optionsEl =
+document.getElementById("options");
+
+questionEl.innerHTML =
+quizData[currentQuestion].question;
+
+optionsEl.innerHTML = "";
+
+quizData[currentQuestion].options
+.forEach((option,index)=>{
+
+const button =
+document.createElement("button");
+
+button.innerHTML = option;
+
+button.classList.add("option");
+
+button.onclick =
+()=>selectAnswer(button,index);
+
+optionsEl.appendChild(button);
+
+});
+
+}
+
+/* SELECT ANSWER */
+
+function selectAnswer(button,index){
+
+selectedAnswer = index;
+
+const buttons =
+document.querySelectorAll(".option");
+
+const correct =
+quizData[currentQuestion].correct;
+
+if(index === correct){
+
+button.style.background = "green";
+button.style.color = "white";
+
+score++;
+
+}
+else{
+
+button.style.background = "red";
+button.style.color = "white";
+
+buttons[correct].style.background =
+"green";
+
+buttons[correct].style.color =
+"white";
+
+}
+
+buttons.forEach(btn=>{
+
+btn.disabled = true;
+
+});
+
+}
+
+/* NEXT QUESTION */
+
+function nextQuestion(){
+
+if(selectedAnswer === null){
+
+alert("Please select an answer!");
+
+return;
+
+}
+
+currentQuestion++;
+
+if(currentQuestion < quizData.length){
+
+loadQuestion();
+
+}
+else{
+
+showResult();
+
+}
+
+}
+
+/* RESULT */
+
+function showResult(){
+
+let status = "";
+
+if(score > 7){
+
+status = "🎉 Selected for Hackathon";
+
+}
+else if(score > 5){
+
+status = "⏳ Waiting List";
+
+}
+else{
+
+status = "❌ Better Luck Next Time";
+
+}
+
+document.getElementById("quizBox")
+.innerHTML = `
+
+<h1>Quiz Completed 🎉</h1>
+
+<div class="result">
+Score: ${score}/10
+<br><br>
+${status}
+</div>
+
+`;
+
+document.getElementById("scoreCard")
+.innerHTML = score;
+
+document.getElementById("statusCard")
+.innerHTML = status;
+
+document.getElementById("progressScore")
+.innerHTML = score;
+
+document.getElementById("progressStatus")
+.innerHTML = status;
+
+}
+
+</script>
+
+</body>
+</html>
